@@ -1,0 +1,14 @@
+<div class="sort">
+  <app-header category="Sort By Letter"></app-header>
+  <div class="sort__by">
+    <input type="text" (keyup)="sortData($event)" placeholder="Search" #event>
+    <div class="sort__by__letter" *ngFor="let letter of filterData.keys(); index as i">
+      <div *ngIf="!!filterData.get(letter).length">
+        <div class="letter">{{letter}}</div>
+        <div class="content" *ngFor="let data of filterData.get(letter)"
+             (click)="event.value = data; event.focus(); sortData({target: {value: data}})">
+          {{data}}</div>
+      </div>
+    </div>
+  </div>
+</div>

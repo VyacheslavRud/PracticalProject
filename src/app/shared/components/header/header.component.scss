@@ -1,0 +1,12 @@
+header{
+  div{
+    font-size: 5rem;
+    text-transform: uppercase;
+    mix-blend-mode: color-burn;
+    margin: 20px 0;
+    color: #dacac5;
+    //background: url("/assets/images/main/star.jpg");
+    //-webkit-background-clip: text;
+    filter: drop-shadow(2px 2px 2px black);
+  }
+}

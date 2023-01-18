@@ -1,0 +1,37 @@
+<div class="grid">
+  <app-header category="Grid"></app-header>
+  <div class="grid__users" #items *ngIf="(users | async) as users; else loading">
+    <div class="grid__users__title">
+      <div *ngFor="let type of types">{{type}}</div>
+    </div>
+    <div class="grid__users__user"
+         *ngFor="let user of users; index as i"
+         [ngClass]="{'column': i !== 0 && i % 50 == 0}"
+         (click)="userInfo(user)"
+    >
+      <div class="grid__users__user__img"><img [src]="user.picture.large" loading="lazy"></div>
+      <div class="grid__users__user__data">
+        <div *ngIf="i !== 0 && i % 25 == 0" class="gold">Gold User</div>
+        <div class="grid__users__user__data__top">Hi My Name Is</div>
+        <div class="grid__users__user__data__bottom">{{user.name.first}} {{user.name.last}}</div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <div class="grid__users">
+      <div class="grid__users__title">
+        <div *ngFor="let type of types">{{type}}</div>
+      </div>
+      <div class="grid__users__user grid__users__load" *ngFor="let i of [].constructor(20)">
+        <div class="grid__users__user__img" style="filter: blur(1px);">
+          <img src="assets/images/grid/unknown.jpg" loading="lazy">
+        </div>
+        <div class="grid__users__user__data">
+          <div class="grid__users__user__data__top"></div>
+          <div class="grid__users__user__data__bottom"></div>
+        </div>
+      </div>
+    </div>>
+  </ng-template>
+</div>

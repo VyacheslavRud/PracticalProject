@@ -1,0 +1,48 @@
+.sort{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: url("../../assets/images/main/bg.jpg") no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  &__by{
+    background: black;
+    width: 250px;
+    color: white;
+    border-radius: 5px 5px 0 0;
+    input{
+      width: 100%;
+      padding: 10px;
+      box-shadow: inset 0 0 4px 1px #2a3ca6;
+      border-radius: 5px 5px 0 0;
+      border: 0;
+      background: black;
+      color: white;
+      &::placeholder{
+        color: rgba(255, 255, 255, 0.6);
+        text-transform: uppercase;
+        font-size: .9rem;
+        font-family: monospace;
+      }
+    }
+    &__letter{
+      .letter{
+        font-size: 1.5rem;
+        background: #3f51b5;
+        padding: 5px;
+        font-weight: bold;
+        font-family: monospace;
+      }
+      .content{
+        margin: 7px 15px;
+        cursor: pointer;
+        transition: color .2s;
+        &:hover{
+          color: #9393f8;
+
+        }
+      }
+    }
+  }
+}
