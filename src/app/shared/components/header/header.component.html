@@ -1,5 +1,22 @@
+<ng-content select=".header"></ng-content>
 <header>
   <div>
     {{category}}
   </div>
 </header>
+<ng-content></ng-content>
+<ng-template #ref let-context='context' let-any>
+  <p>Will be displayed if ng-template is true</p>
+  <p>And this</p>
+  <p>{{context}}</p>
+  <p>{{any}}</p>
+</ng-template>
+
+<ng-container *ngIf="fromParent">
+  <ng-container *ngTemplateOutlet="ref; context: {context: 'Test context', $implicit: 'From Implicit'}" ></ng-container>
+</ng-container>
+<ng-container *ngIf="fromParent">
+  <p>P without container</p>
+</ng-container>
+<ng-content select="hr"></ng-content>
+<ng-content select="footer"></ng-content>

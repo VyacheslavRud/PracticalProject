@@ -1,0 +1,26 @@
+.template{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: url("../../assets/images/main/bg.jpg") no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  .header{
+    font-size: 2rem;
+    color: white;
+    text-align: center;
+  }
+  main{
+    font-size: 1.2rem;
+    color: #00ff79;
+    margin: 10px 0;
+  }
+  footer{
+    text-align: center;
+    color: white;
+  }
+  hr{
+    margin: 10px 0;
+  }
+}

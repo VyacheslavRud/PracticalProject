@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
@@ -8,16 +8,26 @@ import {Router} from '@angular/router';
 })
 export class MainComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit(): void {
   }
 
-  async toGrid(){
+  async toGrid() {
     await this.router.navigate(['/grid']);
   }
-  async toSort(){
+
+  async toSort() {
     await this.router.navigate(['/sort-by-letter']);
+  }
+
+  async toSubway() {
+    await this.router.navigate(['/subway'])
+  }
+
+  async toNgTemplate() {
+    await this.router.navigate(['/ng-template'])
   }
 
 }

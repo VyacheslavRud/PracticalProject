@@ -1,6 +1,15 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {UserService} from "../shared/services/user.service";
-import {fromEvent, map, Observable, of, Subject, takeUntil} from "rxjs";
+import {fromEvent, map, Observable, of, Subject, take, takeUntil, tap} from "rxjs";
 
 
 @Component({
@@ -8,45 +17,47 @@ import {fromEvent, map, Observable, of, Subject, takeUntil} from "rxjs";
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss']
 })
-export class GridComponent implements OnInit, OnDestroy, AfterViewInit {
+export class GridComponent implements OnInit, OnDestroy {
 
   unsubscribeAll = new Subject();
-  users: Observable<any> = new Observable();
+  users?: Observable<any>;
   usersItems: Array<any> = [];
-  @ViewChild('items') private items?: ElementRef;
-  types: Array<string> = ['Names', 'Emails', 'Birthdays', 'Address', 'Numbers', 'Passwords']
+  @ViewChildren('items') private items?: QueryList<any>;
+  types: Array<string> = ['Names', 'Emails', 'Birthdays', 'Address', 'Numbers', 'Passwords'];
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {
+  }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    let amount = 25;
+    let skip = false;
     this.users = this.userService.getUsers().pipe(map((response) => {
       this.usersItems = [...response.results];
       return response.results.slice(0, 25)
-    }));
+    }), tap(users => {
+      if (!!users.length && !skip) {
+        this.items!.changes.pipe(takeUntil(this.unsubscribeAll)).subscribe(res => {
+          console.log(res)
+          if (!!res._results.length) {
+            fromEvent(res._results[0].nativeElement, 'scroll')
+              .pipe(takeUntil(this.unsubscribeAll))
+              .subscribe((e: any) => {
+                const target: HTMLElement = e.target;
+                if (target.scrollTop + target.offsetHeight >= target.scrollHeight) {
+                  this.users = of(this.usersItems.slice(0, 25 + amount))
+                  amount += 25;
+                  console.log(amount)
+                }
+              });
+          }
+        })
+      }
+    }), take(1));
   }
 
   ngOnDestroy() {
     this.unsubscribeAll.next(null);
     this.unsubscribeAll.complete();
-  }
-
-  async ngAfterViewInit() {
-    try {
-      let amount = 25;
-      await this.users.toPromise()
-      fromEvent(this.items?.nativeElement,'scroll')
-        .pipe(takeUntil(this.unsubscribeAll))
-        .subscribe((e: any) => {
-          const target: HTMLElement = e.target;
-          if (target.scrollTop + target.offsetHeight >= target.scrollHeight){
-            this.users = of(this.usersItems.slice(0, 25+amount))
-            amount += 25;
-            console.log(amount)
-          }
-        });
-    } catch (e) {
-      console.log('Ops!')
-    }
   }
 
   userInfo(user: any) {

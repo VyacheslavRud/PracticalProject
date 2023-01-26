@@ -8,6 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class HeaderComponent implements OnInit {
 
   @Input() category: string | undefined;
+  @Input() fromParent: boolean = false;
 
   constructor() { }
 
